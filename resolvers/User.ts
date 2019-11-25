@@ -7,17 +7,18 @@ import User from "../database/models/User";
 
 export default {
   Query: {
-    users: () => {
-      return users;
-    },
-    user: combineResolvers(
-      isAuthenticated,
-      (_: any, { id }: { id: any }, { email }: { email: any }) => {
-        console.log("===", email);
-
-        return users.find(user => user.id === id);
+    user: combineResolvers(isAuthenticated, async (_, __, { email }) => {
+      console.log("===", email);
+      try {
+        const user = await User.findOne({ email });
+        if (!user) {
+          throw new Error("User not found");
+        }
+        return user;
+      } catch (error) {
+        throw error;
       }
-    )
+    })
   },
   Mutation: {
     login: async (_: any, { input }: { input: any }) => {
@@ -43,7 +44,6 @@ export default {
     },
 
     signup: async (_: any, { input }: { input: any }) => {
-      console.log("aca paso");
       try {
         const user = await User.findOne({ email: input.email });
         if (user) {
@@ -58,8 +58,5 @@ export default {
         throw error;
       }
     }
-  },
-  User: {
-    users: ({ id }: { id: any }) => users.filter((user: any) => user.id === id)
   }
 };

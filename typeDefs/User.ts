@@ -2,8 +2,7 @@ import { gql } from "apollo-server-express";
 
 export default gql`
   extend type Query {
-    users: [User!]
-    user(id: ID!): User!
+    user: User!
   }
   extend type Mutation {
     signup(input: signupInput): User
@@ -25,7 +24,6 @@ export default gql`
     id: ID!
     name: String!
     email: String!
-    tasks: [Task!]
     createdAt: Date!
     updatedAt: Date!
   }
