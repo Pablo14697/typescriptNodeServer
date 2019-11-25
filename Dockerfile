@@ -20,4 +20,6 @@ COPY .env ./dist/
 WORKDIR ./dist
 
 EXPOSE 3000
+
+EXPOSE $PORT
 CMD node Server.js

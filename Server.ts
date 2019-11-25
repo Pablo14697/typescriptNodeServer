@@ -22,7 +22,7 @@ const typeDefs = gql`
 const resolvers = {};
 const apolloServer = new ApolloServer({ typeDefs, resolvers });
 apolloServer.applyMiddleware({ app, path: "/graphql" });
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.send({ message: "Hello" });
